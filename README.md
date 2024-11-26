@@ -6,6 +6,7 @@ This project demonstrates how to train a LightGBM model for classification tasks
 The trained model is saved using joblib for future use.
 
 Acknowledgements:
+
 LightGBM: A fast, distributed, high-performance gradient boosting framework.
 
 Scikit-learn: For machine learning tools and models.
