@@ -2,14 +2,11 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load the trained model and scaler
 model = joblib.load(r"C:\Users\jothi\Downloads\loan_status_Eligibility_predictor.pkl")
 scaler = joblib.load(r"C:\Users\jothi\Downloads\vector.pkl")
 
-# Streamlit page configuration
 st.set_page_config(page_title="Loan Eligibility Predictor", page_icon="🏦", layout="wide")
 
-# Header with custom styling
 st.markdown(
     """
     <style>
@@ -27,10 +24,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Sidebar for user input fields
 st.sidebar.header("📝 Enter Your Details")
 
-# Organize fields into two columns for better layout
 col1, col2 = st.columns(2)
 
 with col1:
@@ -45,12 +40,10 @@ with col2:
     coapplicant_income = st.number_input("Coapplicant Income (in thousands)", min_value=0, step=50)
     loan_amount = st.number_input("Loan Amount (in thousands)", min_value=0, step=10)
 
-# Additional fields
 loan_term = st.slider("Loan Term (in days)", min_value=60, max_value=360, step=60, value=180)
 credit_history = st.radio("Credit History", [1.0, 0.0], horizontal=True)
 property_area = st.selectbox("Property Area", ["Urban", "Rural", "Semiurban"])
 
-# Convert inputs into DataFrame
 input_data = pd.DataFrame({
     'Gender': [1 if gender == 'Male' else 0],
     'Married': [1 if married == 'Yes' else 0],
@@ -65,11 +58,9 @@ input_data = pd.DataFrame({
     'Property_Area': [1 if property_area == 'Urban' else 0],
 })
 
-# Scale numeric features
 numeric_cols = ['ApplicantIncome', 'CoapplicantIncome', 'LoanAmount', 'Loan_Amount_Term']
 input_data[numeric_cols] = scaler.transform(input_data[numeric_cols])
 
-# Predict loan eligibility
 if st.button("🔍 Predict Eligibility"):
     prediction = model.predict(input_data)
     if prediction[0] == 1:
