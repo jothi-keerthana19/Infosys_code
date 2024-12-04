@@ -1,57 +1,78 @@
 import streamlit as st
 import pandas as pd
-from joblib import load
+import joblib
 
-# Load the pre-trained Random Forest model
-#random_forest_model = load('C:/Users/jothi/Downloads/random_forest_model_compressed new/random_forest_model_compressed new')
-from joblib import load, Memory
+# Load the trained model and scaler
+model = joblib.load(r"C:\Users\jothi\Downloads\loan_status_Eligibility_predictor.pkl")
+scaler = joblib.load(r"C:\Users\jothi\Downloads\vector.pkl")
 
-# Use joblib's memory caching feature to optimize loading
-memory = Memory(location='cachedir', verbose=0)
-random_forest_model = memory.cache(load)(r'C:/Users/jothi/Downloads/random_forest_model_compressed new/random_forest_model_compressed new')
+# Streamlit page configuration
+st.set_page_config(page_title="Loan Eligibility Predictor", page_icon="🏦", layout="wide")
 
-# Now you can use your model as usual
+# Header with custom styling
+st.markdown(
+    """
+    <style>
+        .title {text-align: center; font-size: 48px; color: #4CAF50; font-weight: bold;}
+        .subheader {text-align: center; font-size: 20px; color: #777;}
+        .result {font-size: 36px; font-weight: bold; color: #444; text-align: center;}
+        .approved {color: #4CAF50;}
+        .denied {color: #F44336;}
+        .stButton button {background-color: #4CAF50; color: white; border-radius: 8px; font-size: 18px;}
+        .stButton button:hover {background-color: #45a049;}
+    </style>
+    <div class="title">🏦 Loan Eligibility Predictor</div>
+    <div class="subheader">Check if you qualify for a loan based on your details</div>
+    """,
+    unsafe_allow_html=True
+)
 
-# Streamlit UI for input
-st.title("Loan Eligibility Prediction")
+# Sidebar for user input fields
+st.sidebar.header("📝 Enter Your Details")
 
-# Input fields for the user
-person_age = st.number_input("Age", min_value=18, max_value=100, value=30)
-person_income = st.number_input("Income", min_value=1000, value=50000)
-person_home_ownership = st.selectbox("Home Ownership", ['MORTGAGE', 'RENT', 'OWN', 'OTHER'])
-loan_amnt = st.number_input("Loan Amount", min_value=1000, value=10000)
-loan_int_rate = st.number_input("Loan Interest Rate", min_value=0.1, max_value=50.0, value=5.0)
-loan_grade = st.selectbox("Loan Grade", ['A', 'B', 'C', 'D', 'E', 'F'])
-loan_percentage_income = st.number_input("Loan Percentage of Income", min_value=0.0, max_value=1.0, value=0.2)
-default_on_file = st.selectbox("Default on File", ['yes', 'no'])
-loan_intent = st.selectbox("Loan Intent", ['Personal', 'Business', 'Auto'])
-credit_history_length = st.number_input("Credit History Length", min_value=0, max_value=50, value=10)
-person_emp_length = st.number_input("Employment Length (years)", min_value=0, max_value=50, value=5)
+# Organize fields into two columns for better layout
+col1, col2 = st.columns(2)
 
-# Adding missing columns with valid default values
-user_input = pd.DataFrame({
-    'person_age': [person_age],
-    'person_income': [person_income],
-    'person_home_ownership': [person_home_ownership],
-    'loan_amnt': [loan_amnt],
-    'loan_int_rate': [loan_int_rate],
-    'loan_grade': [loan_grade],
-    'loan_percent_income': [loan_percentage_income],
-    'default_on_file': [default_on_file],
-    'loan_intent': [loan_intent],
-    'credit_history_length': [credit_history_length],
-    'person_emp_length': [person_emp_length],
-    'cb_person_cred_hist_length': [st.number_input("Credit History Length (0-50)", min_value=0, max_value=50, value=10)],
-    'cb_person_default_on_file': [st.selectbox("Has Default on File (yes/no)", ['yes', 'no'])]
+with col1:
+    gender = st.selectbox("Gender", ["Male", "Female"])
+    married = st.selectbox("Marital Status", ["Yes", "No"])
+    dependents = st.selectbox("Number of Dependents", ["0", "1", "2", "3+"])
+    education = st.selectbox("Education Level", ["Graduate", "Not Graduate"])
+
+with col2:
+    self_employed = st.selectbox("Self Employed", ["Yes", "No"])
+    applicant_income = st.number_input("Applicant Income (in thousands)", min_value=0, step=100)
+    coapplicant_income = st.number_input("Coapplicant Income (in thousands)", min_value=0, step=50)
+    loan_amount = st.number_input("Loan Amount (in thousands)", min_value=0, step=10)
+
+# Additional fields
+loan_term = st.slider("Loan Term (in days)", min_value=60, max_value=360, step=60, value=180)
+credit_history = st.radio("Credit History", [1.0, 0.0], horizontal=True)
+property_area = st.selectbox("Property Area", ["Urban", "Rural", "Semiurban"])
+
+# Convert inputs into DataFrame
+input_data = pd.DataFrame({
+    'Gender': [1 if gender == 'Male' else 0],
+    'Married': [1 if married == 'Yes' else 0],
+    'Dependents': [int(dependents.replace("+", ""))],
+    'Education': [0 if education == 'Graduate' else 1],
+    'Self_Employed': [1 if self_employed == 'Yes' else 0],
+    'ApplicantIncome': [applicant_income],
+    'CoapplicantIncome': [coapplicant_income],
+    'LoanAmount': [loan_amount],
+    'Loan_Amount_Term': [loan_term],
+    'Credit_History': [credit_history],
+    'Property_Area': [1 if property_area == 'Urban' else 0],
 })
 
-# Button for prediction
-if st.button("Predict"):
-    # Make prediction using the loaded model
-    random_forest_prediction = random_forest_model.predict(user_input)
+# Scale numeric features
+numeric_cols = ['ApplicantIncome', 'CoapplicantIncome', 'LoanAmount', 'Loan_Amount_Term']
+input_data[numeric_cols] = scaler.transform(input_data[numeric_cols])
 
-    # Display the result
-    if random_forest_prediction[0] == 1:
-        st.success("You are eligible for the loan!")
+# Predict loan eligibility
+if st.button("🔍 Predict Eligibility"):
+    prediction = model.predict(input_data)
+    if prediction[0] == 1:
+        st.markdown('<div class="result approved">✅ Loan Approved</div>', unsafe_allow_html=True)
     else:
-        st.error("You are not eligible for the loan.")
+        st.markdown('<div class="result denied">❌ Loan Not Approved</div>', unsafe_allow_html=True)
