@@ -4,22 +4,23 @@ Empowering financial institutions with advanced AI-driven insights to enhance cr
 
 📜 Overview
 
-This project leverages cutting-edge machine learning techniques to predict loan eligibility and assess credit risk. By processing historical financial data, it streamlines decision-making for credit underwriting, helping institutions reduce risk and optimize approval processes.
+This project is the culmination of my passion for leveraging machine learning to solve real-world problems. By applying predictive modeling to credit underwriting, I aimed to streamline risk assessment processes, enhance decision-making accuracy, and reduce manual effort for financial institutions. Throughout this journey, I acquired hands-on experience in end-to-end project development, from data preprocessing and model training to deployment.
 
 📂 Table of Contents
 
-- About
-- Features
-- Technology Stack
-- Requirements
-- Setup
-- Workflow
-- Usage
-- Results
-- Resources
-- Contributions
-- License
-- Acknowledgements
+- [About](#about)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Workflow](#workflow)
+- [Usage](#usage)
+- [Results](#results)
+- [Resources](#resources)
+- [Challenges Faced](#challenges-faced)
+- [Contributions](#contributions)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 🛠️ About
 
@@ -27,6 +28,8 @@ This project combines machine learning and intuitive design to:
 - **Predict Credit Risk**: Implement models that forecast the likelihood of defaults.
 - **Enhance Data Insights**: Provide a deeper understanding of financial patterns through analytics.
 - **Scalable Solutions**: Facilitate integration with real-world systems for automated decision-making.
+
+It was developed as part of my academic and personal learning journey, offering insights into building impactful AI solutions for the financial sector.
 
 🌟 Features
 
@@ -118,6 +121,12 @@ Here are some useful resources to deepen your understanding of the technologies 
 - **Streamlit**:
   - [Streamlit Documentation](https://docs.streamlit.io/)
   - [Streamlit Tutorials on YouTube](https://www.youtube.com/results?search_query=streamlit+tutorial)
+
+📘 Challenges Faced
+
+- **Data Imbalance**: Addressing the imbalance in the dataset to ensure fair model predictions.
+- **Deployment Configuration**: Troubleshooting compatibility issues between Flask and Streamlit setups.
+- **Performance Optimization**: Balancing model complexity and runtime efficiency.
 
 📘 Contributions
 
