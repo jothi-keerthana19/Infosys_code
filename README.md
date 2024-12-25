@@ -8,10 +8,10 @@ This project is the culmination of my passion for leveraging machine learning to
 
 📂 Table of Contents
 
-- [About](#about)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Requirements](#requirements)
+- [About](#About)
+- [Features](#Features)
+- [Technology Stack](#Technology-stack)
+- [Requirements](#Requirements)
 - [Setup](#setup)
 - [Workflow](#workflow)
 - [Usage](#usage)
