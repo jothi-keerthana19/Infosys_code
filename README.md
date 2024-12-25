@@ -1,5 +1,5 @@
 🚀 AI Predictive Models for Credit Underwriting
-
+Hello! Welcome to the project repository for AI Predictive Models for Credit Underwriting.
 Empowering financial institutions with advanced AI-driven insights to enhance credit underwriting efficiency and accuracy.
 
 📜 Overview
@@ -122,11 +122,6 @@ Here are some useful resources to deepen your understanding of the technologies 
   - [Streamlit Documentation](https://docs.streamlit.io/)
   - [Streamlit Tutorials on YouTube](https://www.youtube.com/results?search_query=streamlit+tutorial)
 
-📘 Challenges Faced
-
-- **Data Imbalance**: Addressing the imbalance in the dataset to ensure fair model predictions.
-- **Deployment Configuration**: Troubleshooting compatibility issues between Flask and Streamlit setups.
-- **Performance Optimization**: Balancing model complexity and runtime efficiency.
 
 📘 Contributions
 
