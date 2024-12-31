@@ -149,6 +149,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 💡 Start transforming credit decisions with AI-powered predictions today!
 
-Demo video
- - for streamlit
-   
+🎥 Demonstration Videos
+
+- **Streamlit App Demo**: [Watch the video]("C:\Users\jothi\Videos\Screen Recordings\streamlit_loan_vid.mp4")
+
+
